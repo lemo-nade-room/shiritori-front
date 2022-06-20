@@ -1,13 +1,21 @@
 <script lang="ts" setup>
 import IceFlower from '@/components/decolations/ice-flower/IceFlower.vue'
 import LoginForm from '@/components/login-form/LoginForm.vue'
+import { AxiosInstance } from "axios"
+import { PropType } from "vue"
 
+const props = defineProps({
+  axios: {
+    type: Function as PropType<AxiosInstance>,
+    required: true
+  }
+})
 
 </script>
 <template>
   <div class="login">
     <div class="form">
-      <LoginForm/>
+      <LoginForm :axios="axios"/>
     </div>
     <div class="flower">
       <IceFlower/>

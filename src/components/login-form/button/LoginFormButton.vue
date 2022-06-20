@@ -8,11 +8,14 @@ const props = defineProps({
   }
 })
 
+const emit = defineEmits<{
+  (e: 'click'): void
+}>()
 
 </script>
 
 <template>
-  <button class="btn" type="button">
+  <button class="btn" type="button" @click="emit('click')">
     {{ props.text }}
   </button>
 </template>

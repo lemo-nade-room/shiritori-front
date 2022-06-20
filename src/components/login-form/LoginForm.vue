@@ -1,7 +1,26 @@
 <script lang="ts" setup>
 import LoginFormButton from '@/components/login-form/button/LoginFormButton.vue'
 import LoginFormInput from '@/components/login-form/input/LoginFormInput.vue'
+import { AxiosInstance } from "axios"
+import { PropType, ref } from "vue"
+import { useRouter } from "vue-router"
 
+const props = defineProps({
+  axios: {
+    type: Function as PropType<AxiosInstance>,
+    required: true
+  }
+})
+
+const input = ref('')
+
+const router = useRouter()
+
+const login = async () => {
+  if (input.value === '') return
+  await props.axios.post('/login', {username: input.value})
+  await router.push('/')
+}
 
 
 </script>
@@ -9,9 +28,9 @@ import LoginFormInput from '@/components/login-form/input/LoginFormInput.vue'
 <template>
 <form class="form">
   <h1 class="title">Login</h1>
-  <LoginFormInput placeholder="なまえ"/>
+  <LoginFormInput placeholder="なまえ" v-model="input"/>
   <div class="buttons">
-    <LoginFormButton class="button" text="ログイン"/>
+    <LoginFormButton class="button" text="ログイン" @click="login"/>
   </div>
 </form>
 </template>

@@ -1,5 +1,15 @@
+<script lang="ts" setup>
+import Axios from "axios"
+// import { WebSocket } from "vite"
+
+// const ws = new WebSocket('ws://localhost:8000/echo')
+const axios = Axios.create({ baseURL: 'http://localhost:8000/api' })
+</script>
+
 <template>
-  <router-view></router-view>
+  <suspense>
+    <router-view :axios="axios"/>
+  </suspense>
 </template>
 
 <style>
