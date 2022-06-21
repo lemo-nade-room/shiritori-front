@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 
 import { PropType, ref } from "vue"
-import { AxiosInstance, AxiosError } from "axios"
+import { AxiosInstance } from "axios"
 import { useRouter } from "vue-router"
 
 const props = defineProps({
@@ -14,22 +14,17 @@ const props = defineProps({
 const name = ref('')
 
 const router = useRouter()
-
-try {
-  name.value = (await props.axios.get('/login')).data
-} catch (e) {
-  const err = e as AxiosError
-  const status = err.response?.status
-  if (status === 401) router.push('/login')
-}
-
-
+name.value = (await props.axios.get('/login')).data
 </script>
 
 <template>
-  こんにちは {{ name }}さん
+  <div>
+    こんにちは {{ name }}さん
+    <router-link to="/matching">対戦相手を探す</router-link>
+  </div>
+
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 
 </style>
