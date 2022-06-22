@@ -1,7 +1,7 @@
 export class MatchingUserStatus {
 
     private constructor(
-        private readonly status: string
+        public readonly status: string
     ) {}
 
     public static readonly active = new MatchingUserStatus('active')

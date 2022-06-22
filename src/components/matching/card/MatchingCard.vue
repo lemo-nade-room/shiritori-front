@@ -9,6 +9,11 @@ const props = defineProps({
   }
 })
 
+const emits = defineEmits<{
+  (e: 'offer', id: string): void
+  (e: 'reply', id: string, reply: 'accept' | 'deny'): void
+  (e: 'withdraw', id: string): void
+}>()
 </script>
 
 <template>
@@ -17,18 +22,18 @@ const props = defineProps({
       {{ props.user.name }}
     </div>
 
-    <div class="buttons" v-if="props.user.isActive">
-      <button class="offer btn">申し込む</button>
+    <div class="buttons" v-if="props.user.status.status === 'active'">
+      <button class="offer btn" @click="emits('offer', props.user.id)">申し込む</button>
     </div>
 
-    <div class="buttons" v-if="props.user.isOffered">
-      <button class="deny btn">拒否</button>
-      <button class="accept btn">承諾</button>
+    <div class="buttons" v-if="props.user.status.status === 'offered'">
+      <button class="deny btn" @click="emits('reply', props.user.id, 'deny')">拒否</button>
+      <button class="accept btn" @click="emits('reply', props.user.id, 'accept')">承諾</button>
     </div>
 
-    <div class="buttons" v-if="props.user.isOffering">
+    <div class="buttons" v-if="props.user.status.status === 'offering'">
       <button class="offering btn">申請中</button>
-      <button class="cancel btn"><span class="cross"/></button>
+      <button class="cancel btn" @click="emits('withdraw', props.user.id)"><span class="cross"/></button>
     </div>
   </div>
 </template>
@@ -164,17 +169,6 @@ $padding: 10px;
           background-color: red;
         }
       }
-
-
-      //&:after {
-      //  content: '';
-      //  display: block;
-      //  width: 5px;
-      //  height: 60px;
-      //  transform-origin: top left;
-      //  transform: translate(-100%) rotate(45deg);
-      //  background-color: red;
-      //}
     }
   }
 

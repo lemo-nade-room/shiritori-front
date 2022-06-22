@@ -20,7 +20,8 @@ const router = createRouter({
 router.beforeEach(async (to) => {
     if (to.path === '/login') return
     try {
-        await axios.get('http://localhost:8000/api/login')
+        const id = await axios.get('http://localhost:8000/api/login')
+        console.log(id)
         return
     } catch {
         await router.push('/login')

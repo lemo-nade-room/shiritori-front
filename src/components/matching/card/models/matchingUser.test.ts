@@ -3,7 +3,7 @@ import { MatchingUser } from "@/components/matching/card/models/matchingUser"
 
 describe('Matching User Test', () => {
     test('statusの変更', () => {
-        const activeUser = MatchingUser.initActive('たなか')
+        const activeUser = MatchingUser.initActive('id', 'たなか')
         const offeredUser = activeUser.offered
 
         expect(activeUser.name).toBe('たなか')

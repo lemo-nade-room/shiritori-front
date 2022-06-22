@@ -1,14 +1,20 @@
 <script lang="ts" setup>
+import { useRouter } from "vue-router"
+
 defineProps({
   ws: String,
   axios: Function
 })
+
+const router = useRouter()
+
+const gotoMatching = () => router.push('/matching')
 </script>
 
 <template>
   <div class="home">
     <button class="btn first">戦績</button>
-    <button class="btn second">対戦</button>
+    <button class="btn second" @click="gotoMatching">対戦</button>
   </div>
 </template>
 

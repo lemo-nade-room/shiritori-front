@@ -1,14 +1,24 @@
 <script lang="ts" setup>
 import MatchingCard from '@/components/matching/card/MatchingCard.vue'
-import { PropType } from "vue"
-import { MatchingUserCollection } from "@/components/matching/cards/models/matchingUserCollection"
 
 const props = defineProps({
   users: {
-    type: Object as PropType<MatchingUserCollection>,
+    type: Object,// build通すよう
     required: true
   }
 })
+
+const emits = defineEmits<{
+  (e: 'offer', id: string): void
+  (e: 'reply', id: string, reply: 'accept' | 'deny'): void
+  (e: 'withdraw', id: string): void
+}>()
+
+const offer = (id: string) => emits('offer', id)
+const reply = (id: string, reply: 'accept' | 'deny') => emits('reply', id, reply)
+const withdraw = (id: string) => emits('withdraw', id)
+
+
 </script>
 
 <template>
@@ -16,8 +26,11 @@ const props = defineProps({
     <MatchingCard
         v-for="user in props.users"
         :user="user"
-        :key="user"
+        :key="user.id"
         class="card"
+        @offer="offer"
+        @reply="reply"
+        @withdraw="withdraw"
     />
   </div>
 </template>
