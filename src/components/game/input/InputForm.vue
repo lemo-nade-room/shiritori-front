@@ -1,17 +1,69 @@
+<script lang="ts" setup>
+
+import { computed, ref } from "vue"
+
+const props = defineProps({
+  latest: {
+    type: Date,
+    required: true
+  },
+  next: {
+    type: String,
+    required: true
+  },
+  myName: {
+    type: String,
+    required: true
+  },
+  previousWord: {
+    type: String,
+    required: true
+  }
+})
+
+
+const emit = defineEmits<{
+  (event: 'update:modelValue', text: string): string
+  (event: 'click'): void
+}>()
+
+const input = ref('')
+
+const emitModel = (): void => {
+  emit('update:modelValue', input.value)
+}
+
+const restSeconds = ref(0)
+
+const isMyTurn = computed(() => props.myName === props.next)
+
+setInterval(() => {
+  const elapsedSeconds = Math.round((Date.now() - props.latest.getTime()) / 1000)
+  restSeconds.value = 30 - elapsedSeconds
+}, 300)
+
+const onClick = () => {
+  if (!isMyTurn.value) return
+  emit('click')
+  input.value = ''
+}
+
+</script>
+
 <template>
   <div class="input-form">
     <h1 class="title">しりとり</h1>
     <p class="previous-word">
       <span>前の単語</span>
-      <span>こんにちは</span>
+      <span>{{ props.previousWord }}</span>
     </p>
     <p class="form">
-      <input class="input" type="text">
-      <button class="send">送信</button>
+      <input class="input" v-model="input" @input="emitModel" type="text" @keypress.enter="onClick">
+      <button :class="{ 'send': true, 'other-turn': !isMyTurn }" @click="onClick">送信</button>
     </p>
     <p class="info">
-      <span>相手の番</span>
-      <span>残り時間: 11</span>
+      <span>{{ isMyTurn ? "あなた" : props.next }}の番</span>
+      <span>残り時間: {{ restSeconds }}</span>
     </p>
   </div>
 </template>
@@ -43,6 +95,8 @@
       width: 300px;
       font-size: 30px;
     }
+
+
     .send {
       width: 120px;
       font-size: 30px;
@@ -55,6 +109,19 @@
       z-index: 1;
       transition: all 0.4s;
       overflow: hidden;
+
+      &.other-turn {
+        background-color: gray;
+        border: 1px solid black;
+
+        &:hover {
+          color: black;
+        }
+        &:before {
+          content: '';
+          display: none;
+        }
+      }
 
       &:before {
         content: '';

@@ -3,7 +3,7 @@ import MatchingCard from '@/components/matching/card/MatchingCard.vue'
 
 const props = defineProps({
   users: {
-    type: Object,// build通すよう
+    type: Object,
     required: true
   }
 })

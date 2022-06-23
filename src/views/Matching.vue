@@ -26,15 +26,7 @@ const state = reactive({
   users: MatchingUserCollection.make(fetchUsers.data.users)
 })
 
-// test
-// const state = reactive({
-//   users: new MatchingUserCollection([
-//       MatchingUser.initActive('tanaka', 'たなか').active,
-//       MatchingUser.initActive('nakata', 'なかた').offered,
-//       MatchingUser.initActive('takeda', 'たけだ').active,
-//   ])
-// })
-//
+
 const ws = new WebSocket(props.ws + '/matching')
 
 const router = useRouter()
@@ -61,7 +53,6 @@ const offer = async (id: string) => {
 }
 
 const withdraw = async (id: string) => {
-  console.log('clicked withdraw')
   await props.axios.delete(`/matching/${id}`)
   state.users = state.users.withdrawn()
 }
@@ -81,6 +72,7 @@ const denied = () => {
 
 const match = async (json: { type: 'match', room: string }) => {
   await props.axios.post(`/register/${json.room}`)
+  ws.close()
   await router.push('/game')
 }
 
@@ -101,7 +93,6 @@ ws.addEventListener('open', () => {
         outed(json)
         break
       case 'denied':
-        console.log('denied ws')
         denied()
         break
       case 'match':

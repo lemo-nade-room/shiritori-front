@@ -1,19 +1,20 @@
 <script lang="ts" setup>
-const records = [
-  { time: '12:24:20', user: 'たなか', text: 'こんにちは' },
-  { time: '12:24:01', user: 'しましま', text: 'はんだごて' },
-  { time: '12:23:22', user: 'たなか', text: 'てらばいと' },
-  { time: '12:23:03', user: 'しましま', text: 'とーますあああああああああああああああああああああああああああ' },
-  { time: '12:22:54', user: 'たなか', text: 'すいかわり' },
-  { time: '12:22:00', user: 'しましま', text: 'りきゅう' },
-]
+import { PropType } from "vue"
+
+type Record = { name: string, text: string, shoutAt: string }[]
+
+const props = defineProps({
+  records: {
+    type: Object as PropType<Record>
+  }
+})
 </script>
 
 <template>
   <div class="records">
-    <p class="record" v-for="record in records">
-      <span class="time">{{ record.time }}</span>
-      <span class="user">{{ record.user }}: </span>
+    <p class="record" v-for="record in props.records">
+      <span class="time">{{ record.shoutAt }}</span>
+      <span class="user">{{ record.name }}: </span>
       <span class="text">{{ record.text }}</span>
     </p>
   </div>

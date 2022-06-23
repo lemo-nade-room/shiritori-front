@@ -1,15 +1,15 @@
 <script lang="ts" setup>
 import Axios from "axios"
 
+const axios = Axios.create({ baseURL: `${location.protocol}//${location.host}/api` })
 
-const axios = Axios.create({ baseURL: 'http://localhost:8000/api' })
-axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
-axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+const ws = `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}/api`
+
 </script>
 
 <template>
   <suspense>
-    <router-view ws="ws://localhost:8000/api" :axios="axios"/>
+    <router-view :ws="ws" :axios="axios"/>
   </suspense>
 </template>
 
