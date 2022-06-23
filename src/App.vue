@@ -25,4 +25,9 @@ html, body {
   sans-serif;
   -webkit-text-size-adjust: 100%;
 }
+
+button {
+  padding: 0;
+  margin: 0;
+}
 </style>
