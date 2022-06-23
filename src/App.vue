@@ -1,21 +1,33 @@
-<script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-import HelloWorld from '@/components/HelloWorld.vue'
+<script lang="ts" setup>
+import Axios from "axios"
+
+const axios = Axios.create({ baseURL: `${location.protocol}//${location.host}/api` })
+
+const ws = `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}/api`
+
 </script>
 
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+  <suspense>
+    <router-view :ws="ws" :axios="axios"/>
+  </suspense>
 </template>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+html, body {
+  padding: 0;
+  margin: 0;
+  font-family: Arial,
+  "Helvetica Neue",
+  "Hiragino Kaku Gothic ProN",
+  "Hiragino Sans",
+  Meiryo,
+  sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+
+button {
+  padding: 0;
+  margin: 0;
 }
 </style>
