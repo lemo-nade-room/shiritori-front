@@ -25,6 +25,7 @@ const props = defineProps({
   margin: 0;
   width: 500px;
   height: 80vh;
+  overflow: scroll;
 
   .record {
     margin: 0;

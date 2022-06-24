@@ -84,6 +84,7 @@ const send = () => {
   height: 100vh;
   background: linear-gradient(135deg, white, #7FFF70);
   position: relative;
+  overflow: scroll;
 
   .input-form {
     position: absolute;
